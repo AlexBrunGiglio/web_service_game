@@ -11,8 +11,8 @@
         <div *ngIf="status">
             <p>Candidat : {{status.name}}</p>
             <p>Enquête débuté le {{status.start_time | date:'dd/MM/yyyy HH:mm' }}</p>
-            <p *ngIf="status.retreived_tresors.length">Trésors trouvés : </p>
-            <p *ngIf="!status.retreived_tresors.length">Aucun trésors trouvés</p>
+            <p *ngIf="status.retreived_tresors?.length">Trésors trouvés : </p>
+            <p *ngIf="!status.retreived_tresors?.length">Aucun trésors trouvés</p>
             <p *ngFor="let item of status.retreived_tresors">- {{item}}</p>
         </div>
     </div>
@@ -21,7 +21,7 @@
             <ng-container *ngIf="!getTokenFromStorage()">
                 <h1>Bienvenue sur Web Services Game</h1>
                 <div>
-                    <p>{{response?.presentation}}</p>
+                    <p>{{responseMessage}}</p>
                 </div>
                 <mat-form-field appearance="outline">
                     <mat-label>Identifiant</mat-label>
@@ -31,7 +31,7 @@
                     <mat-label>Mot de passe</mat-label>
                     <input matInput [(ngModel)]="loginModel.password" type="password" placeholder="Ex. azerty">
                 </mat-form-field>
-                <button (click)="register()">Inscription</button>
+                <button mat-button (click)="register()">Inscription</button>
             </ng-container>
 
             <ng-container *ngIf="getTokenFromStorage()">
@@ -52,12 +52,51 @@
                         <button mat-button (click)="coffre('delete')">DELETE</button>
                         <button mat-button (click)="coffre('options')">OPTIONS</button>
                     </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/escalier'">
+                        <button mat-button (click)="escalier('post')">POST</button>
+                        <button mat-button (click)="escalier('get')">GET</button>
+                        <button mat-button (click)="escalier('delete')">DELETE</button>
+                        <button mat-button (click)="escalier('options')">OPTIONS</button>
+
+                    </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/reset'">
+                        <button mat-button (click)="resetData('post')">POST</button>
+                        <button mat-button (click)="resetData('get')">GET</button>
+                        <button mat-button (click)="resetData('delete')">DELETE</button>
+                        <button mat-button (click)="resetData('options')">OPTIONS</button>
+                    </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/1'">
+                        <button mat-button (click)="tresor1('post')">POST</button>
+                        <button mat-button (click)="tresor1('get')">GET</button>
+                        <button mat-button (click)="tresor1('delete')">DELETE</button>
+                        <button mat-button (click)="tresor1('options')">OPTIONS</button>
+                    </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/36'">
+                        <button mat-button (click)="tresor2('post')">POST</button>
+                        <button mat-button (click)="tresor2('get')">GET</button>
+                        <button mat-button (click)="tresor2('delete')">DELETE</button>
+                        <button mat-button (click)="tresor2('options')">OPTIONS</button>
+                    </ng-container>
+                </div>
+                <div *ngIf="showDecryptInput">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Algorithme de chiffrage</mat-label>
+                        <input matInput [(ngModel)]="algoModel.algo" type="text">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mot de passe</mat-label>
+                        <input matInput [(ngModel)]="algoModel.password" type="text">
+                    </mat-form-field>
+                    <button mat-button (click)="validateTresor()">Confirmer</button>
                 </div>
             </ng-container>
         </div>
         <div class="main-content border">
             <h3>Résultat de vos requêtes</h3>
-            <p>{{this.response?.presentation}}</p>
+            <p [innerHtml]="responseMessage"></p>
+            <div *ngIf="show8000btn && selectedRoute === '/escalier'">
+                <button mat-button>Utiliser le port 8000</button>
+            </div>
         </div>
     </div>
 </div>

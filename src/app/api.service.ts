@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpMethodType } from './types';
@@ -26,24 +26,24 @@ export class ApiService {
     return req;
   }
 
-  coffre(method: HttpMethodType): Observable<CoffreResponse> {
-    return this.http.request<CoffreResponse>(method, this.baseUrl + '/coffre');
+  coffre(method: HttpMethodType): Observable<HttpResponse<CoffreResponse>> {
+    return this.http.request<CoffreResponse>(method, this.baseUrl + '/coffre', { observe: 'response', });
   }
 
-  getTresor1(): Observable<string> {
-    return this.http.get<string>(this.baseUrl + '/1');
+  getTresor1(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/1', { observe: 'response', });
   }
 
-  getTresor2(): Observable<string> {
-    return this.http.get<string>(this.baseUrl + '/36');
+  getTresor2(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/36', { observe: 'response', });
   }
 
-  escalier(): Observable<string> {
-    return this.http.get<string>(this.baseUrl + '/esccalier');
+  escalier(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/escalier', { observe: 'response', });
   }
 
-  reset(): Observable<StatusResponse> {
-    return this.http.get<StatusResponse>(this.baseUrl + '/reset');
+  reset(method: HttpMethodType): Observable<StatusResponse> {
+    return this.http.request<StatusResponse>(method, this.baseUrl + '/reset');
   }
 }
 
