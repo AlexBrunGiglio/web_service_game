@@ -1,0 +1,26 @@
+{
+    "/api": {
+        "target": "http://141.95.153.155",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/api": ""
+        }
+    },
+    "/api2": {
+        "target": "http://141.95.153.155:8000",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/api": ""
+        }
+    },
+    "/api3": {
+        "target": "http://141.95.153.155:7259",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/api": ""
+        }
+    }
+}
