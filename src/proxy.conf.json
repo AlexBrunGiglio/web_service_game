@@ -1,26 +1,38 @@
-{
-    "/api": {
+[
+    {
+        "context": [
+            "/api1"
+        ],
         "target": "http://141.95.153.155",
-        "secure": true,
+        "secure": false,
+        "logLevel": "debug",
         "changeOrigin": true,
         "pathRewrite": {
-            "^/api": ""
+            "^/api1": ""
         }
     },
-    "/api2": {
+    {
+        "context": [
+            "/api2"
+        ],
         "target": "http://141.95.153.155:8000",
-        "secure": true,
+        "secure": false,
+        "logLevel": "debug",
         "changeOrigin": true,
         "pathRewrite": {
-            "^/api": ""
+            "^/api2": ""
         }
     },
-    "/api3": {
+    {
+        "context": [
+            "/api3"
+        ],
         "target": "http://141.95.153.155:7259",
-        "secure": true,
+        "secure": false,
+        "logLevel": "debug",
         "changeOrigin": true,
         "pathRewrite": {
-            "^/api": ""
+            "^/api3": ""
         }
     }
-}
+]

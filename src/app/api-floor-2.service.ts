@@ -1,11 +1,13 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { StatusResponse } from './api.service';
+import { HttpMethodType } from './types';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class Api2Service {
   baseUrl = 'http://localhost:8100/api2';
   constructor(private http: HttpClient) {
   }
@@ -25,37 +27,29 @@ export class ApiService {
     return req;
   }
 
-  escalier(): Observable<string> {
-    return this.http.get<string>(this.baseUrl + '/esccalier');
+  escalier(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/esccalier', { observe: 'response', });
   }
 
-  reset(): Observable<StatusResponse> {
-    return this.http.get<StatusResponse>(this.baseUrl + '/reset');
+  reset(method: HttpMethodType): Observable<StatusResponse> {
+    return this.http.request<StatusResponse>(method, this.baseUrl + '/reset');
   }
 
-  vieux(): Observable<VieuxResponse> {
-    return this.http.get<VieuxResponse>(this.baseUrl + 'vieux');
+  vieux(method: HttpMethodType): Observable<HttpResponse<VieuxResponse>> {
+    return this.http.request<VieuxResponse>(method, this.baseUrl + 'vieux', { observe: 'response', });
   }
 
-  note(): Observable<string> {
-    return this.http.get<string>(this.baseUrl + '/note');
+  note(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/note', { observe: 'response', });
   }
 
-  couloir(): Observable<string> {
-    return this.http.get<string>(this.baseUrl + '/couloir');
+  couloir(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/couloir', { observe: 'response', });
   }
 
-  couloir1(): Observable<string> {
-    return this.http.get<string>(this.baseUrl + '/couloir/1');
+  couloir1(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/couloir/1', { observe: 'response', });
   }
-}
-
-interface StatusResponse {
-  name: string;
-  start_time: string;
-  retreived_tresors: string[];
-  end_time?: string;
-  finished?: boolean;
 }
 
 interface VieuxResponse {

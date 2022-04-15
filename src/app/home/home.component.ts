@@ -1,6 +1,8 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { Api2Service } from '../api-floor-2.service';
+import { Api3Service } from '../api-floor-3.service';
 import { ApiService, StatusResponse } from '../api.service';
 import { HttpMethodType } from '../types';
 
@@ -33,19 +35,25 @@ export class HomeComponent implements OnInit {
   responseMessage!: string;
   headersResult: any;
   show8000btn = false;
+  show7259btn = false;
   showDecryptInput = false;
   status = {} as StatusResponse;
   algoModel = {} as AlgoChiffrage;
+  etagesList = ['Etage 1'];
+  etageSelected!: string;
+  secretRoute!: string;
   constructor(
     private api: ApiService,
+    private api2: Api2Service,
+    private api3: Api3Service,
   ) { }
 
   async ngOnInit() {
-    this.api.init().subscribe(response => this.routesResponse = response.carte);
+    this.etageSelected = 'Etage 1';
+    this.setRouteListFromFloor();
     if (localStorage.getItem('token') !== null) {
       await this.resetData('get');
     }
-    console.log("🚀 ~ HomeComponent ~ ngOnInit ~ this.response ", this.routesResponse);
   }
 
   async resetData(method: HttpMethodType) {
@@ -55,7 +63,7 @@ export class HomeComponent implements OnInit {
   async register() {
     localStorage.clear();
     let tokenValue: string;
-    await firstValueFrom(this.api.inscription('est', 'test')).then((response) => {
+    await firstValueFrom(this.api.inscription(this.loginModel.username, this.loginModel.password)).then((response) => {
       console.log("🚀 ~ HomeComponent ~ register ~ tokenValue", tokenValue!);
       tokenValue = response.headers.get('x-subject-token');
       localStorage.setItem('token', tokenValue!);
@@ -80,8 +88,10 @@ export class HomeComponent implements OnInit {
       this.responseMessage = '<b> Response : <br> ' + response.body + '<br> <br>' + this.getResponseHeader(response.headers);
     }, (error) => {
       this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
-      if (error.error.text)
+      if (error.error.text) {
         this.show8000btn = true;
+        this.etagesList.push('Etage 2');
+      }
     });
     this.resetData('get');
 
@@ -144,5 +154,70 @@ export class HomeComponent implements OnInit {
   checkAlgo(input: string) {
     let regex = /^aes-256-ctr$/i;
     return regex.test(input);
+  }
+
+  validateSecretRoute() {
+    if (this.secretRoute === 'tresor' && this.etageSelected === 'Etage 1') {
+      this.routesResponse.push('/tresor');
+      this.responseMessage = "Une nouvelle route a été découverte.";
+    }
+  }
+
+  async tresor3(method: HttpMethodType) {
+    await firstValueFrom(this.api.getTresor3(method)).then((response) => {
+      this.responseMessage = '<b> Response : <br> ' + response.body + '<br> <br>' + this.getResponseHeader(response.headers);
+    }, (error) => {
+      this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
+    });
+    this.resetData('get');
+  }
+
+  setRouteListFromFloor() {
+    console.log("🚀 ~ HomeComponent ~ setRouteListFromFloor ~ this.etageSelected", this.etageSelected);
+    if (this.etageSelected === "Etage 1") {
+      this.api.init().subscribe(response => this.routesResponse = response.carte);
+    }
+
+    if (this.etageSelected === "Etage 2") {
+      this.api2.init().subscribe(response => this.routesResponse = response.carte);
+    }
+
+    if (this.etageSelected === "Etage 3") {
+      this.api3.init().subscribe(response => this.routesResponse = response.carte);
+    }
+    this.responseMessage = "";
+    this.selectedRoute = "/inscription";
+  }
+
+  // SECOND FLOOR
+
+
+  async register2() {
+    localStorage.clear();
+    let tokenValue: string;
+    await firstValueFrom(this.api2.inscription(this.loginModel.username, this.loginModel.password)).then((response) => {
+      tokenValue = response.headers.get('x-subject-token');
+      localStorage.setItem('token', tokenValue!);
+    });
+    this.resetData2('get');
+  }
+
+  async resetData2(method: HttpMethodType) {
+    firstValueFrom(this.api2.reset(method)).then((response) => this.status = response, (error) => this.status.name = error.error);
+  }
+
+  async escalier2(method: HttpMethodType) {
+    this.show7259btn = false;
+    await firstValueFrom(this.api2.escalier(method)).then((response) => {
+      this.responseMessage = '<b> Response : <br> ' + response.body + '<br> <br>' + this.getResponseHeader(response.headers);
+    }, (error) => {
+      this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
+      if (error.error.text) {
+        this.show7259btn = true;
+        this.etagesList.push('Etage 3');
+      }
+    });
+    this.resetData2('get');
+
   }
 }

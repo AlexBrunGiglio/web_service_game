@@ -18,7 +18,7 @@
     </div>
     <div class="main-content">
         <div class="main-content border">
-            <ng-container *ngIf="!getTokenFromStorage()">
+            <ng-container *ngIf="selectedRoute ==='/inscription'">
                 <h1>Bienvenue sur Web Services Game</h1>
                 <div>
                     <p>{{responseMessage}}</p>
@@ -31,21 +31,47 @@
                     <mat-label>Mot de passe</mat-label>
                     <input matInput [(ngModel)]="loginModel.password" type="password" placeholder="Ex. azerty">
                 </mat-form-field>
-                <button mat-button (click)="register()">Inscription</button>
+                <button mat-button (click)="register()"
+                    *ngIf="etageSelected !== 'Etage 2' && etageSelected !== 'Etage 3'">Inscription</button>
+                <button mat-button (click)="register2()" *ngIf="etageSelected === 'Etage 2'">Connexion</button>
+                <button mat-button (click)="register2()" *ngIf="etageSelected === 'Etage 3'">Connexion</button>
             </ng-container>
 
             <ng-container *ngIf="getTokenFromStorage()">
-                <h3 style="margin-bottom: 0;">Choississez une url à visiter</h3>
-                <mat-form-field appearance="outline">
-                    <mat-label>Quel endroit souhaitez vous visiter ?</mat-label>
-                    <mat-select [(ngModel)]="selectedRoute">
-                        <mat-option *ngFor="let item of routesResponse" [value]="item">
-                            {{item}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <div class="flex-header ">
+                    <div>
+                        <h3 style="margin-bottom: 0;">Choississez un étage à visiter</h3>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Quel étage souhaitez vous visiter ?</mat-label>
+                            <mat-select [(ngModel)]="etageSelected" (ngModelChange)="setRouteListFromFloor()">
+                                <mat-option *ngFor="let item of etagesList" [value]="item">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 0;">Choississez une url à visiter</h3>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Quel endroit souhaitez vous visiter ?</mat-label>
+                            <mat-select [(ngModel)]="selectedRoute">
+                                <mat-option *ngFor="let item of routesResponse" [value]="item">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 0;">Entrez une url à visiter</h3>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Indiquer une url</mat-label>
+                            <input matInput [(ngModel)]="secretRoute" (ngModelChange)="validateSecretRoute()"
+                                type="text" placeholder="Ex. login">
+                        </mat-form-field>
+                    </div>
+                </div>
 
-                <div class="btn-row">
+                <div class="btn-row" *ngIf="etageSelected==='Etage 1'">
                     <ng-container *ngIf="selectedRoute === '/coffre'">
                         <button mat-button (click)="coffre('post')">POST</button>
                         <button mat-button (click)="coffre('get')">GET</button>
@@ -77,6 +103,20 @@
                         <button mat-button (click)="tresor2('delete')">DELETE</button>
                         <button mat-button (click)="tresor2('options')">OPTIONS</button>
                     </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/tresor'">
+                        <button mat-button (click)="tresor3('post')">POST</button>
+                        <button mat-button (click)="tresor3('get')">GET</button>
+                        <button mat-button (click)="tresor3('delete')">DELETE</button>
+                        <button mat-button (click)="tresor3('options')">OPTIONS</button>
+                    </ng-container>
+                </div>
+                <div class="btn-row" *ngIf="etageSelected==='Etage 2'">
+                    <ng-container *ngIf="selectedRoute === '/escalier'">
+                        <button mat-button (click)="escalier2('post')">POST</button>
+                        <button mat-button (click)="escalier2('get')">GET</button>
+                        <button mat-button (click)="escalier2('delete')">DELETE</button>
+                        <button mat-button (click)="escalier2('options')">OPTIONS</button>
+                    </ng-container>
                 </div>
                 <div *ngIf="showDecryptInput">
                     <mat-form-field appearance="outline">
@@ -96,6 +136,9 @@
             <p [innerHtml]="responseMessage"></p>
             <div *ngIf="show8000btn && selectedRoute === '/escalier'">
                 <button mat-button>Utiliser le port 8000</button>
+            </div>
+            <div *ngIf="show7259btn && selectedRoute === '/escalier'">
+                <button mat-button>Utiliser le port 7259</button>
             </div>
         </div>
     </div>

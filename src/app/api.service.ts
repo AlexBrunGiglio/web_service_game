@@ -7,7 +7,7 @@ import { HttpMethodType } from './types';
   providedIn: 'root'
 })
 export class ApiService {
-  baseUrl = 'http://localhost:8100/api';
+  baseUrl = 'http://localhost:8100/api1';
   constructor(private http: HttpClient) {
   }
 
@@ -44,6 +44,10 @@ export class ApiService {
 
   reset(method: HttpMethodType): Observable<StatusResponse> {
     return this.http.request<StatusResponse>(method, this.baseUrl + '/reset');
+  }
+
+  getTresor3(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/tresor', { observe: 'response', });
   }
 }
 
