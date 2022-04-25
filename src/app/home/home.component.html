@@ -117,6 +117,50 @@
                         <button mat-button (click)="escalier2('delete')">DELETE</button>
                         <button mat-button (click)="escalier2('options')">OPTIONS</button>
                     </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/reset'">
+                        <button mat-button (click)="resetData2('post')">POST</button>
+                        <button mat-button (click)="resetData2('get')">GET</button>
+                        <button mat-button (click)="resetData2('delete')">DELETE</button>
+                        <button mat-button (click)="resetData2('options')">OPTIONS</button>
+                    </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/vieux'">
+                        <button mat-button (click)="vieux('post')">POST</button>
+                        <button mat-button (click)="vieux('get')">GET</button>
+                        <button mat-button (click)="vieux('delete')">DELETE</button>
+                        <button mat-button (click)="vieux('options')">OPTIONS</button>
+                    </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/note'">
+                        <button mat-button (click)="note('post')">POST</button>
+                        <button mat-button (click)="note('get')">GET</button>
+                        <button mat-button (click)="note('delete')">DELETE</button>
+                        <button mat-button (click)="note('options')">OPTIONS</button>
+                    </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/couloir'">
+                        <button mat-button (click)="couloir('post')">POST</button>
+                        <button mat-button (click)="couloir('get')">GET</button>
+                        <button mat-button (click)="couloir('delete')">DELETE</button>
+                        <button mat-button (click)="couloir('options')">OPTIONS</button>
+                    </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/1'">
+                        <button mat-button (click)="couloir1('post')">POST</button>
+                        <button mat-button (click)="couloir1('get')">GET</button>
+                        <button mat-button (click)="couloir1('delete')">DELETE</button>
+                        <button mat-button (click)="couloir1('options')">OPTIONS</button>
+                    </ng-container>
+                </div>
+                <div class="btn-row" *ngIf="etageSelected==='Etage 2'">
+                    <ng-container *ngIf="selectedRoute === '/reset'">
+                        <button mat-button (click)="resetData3('post')">POST</button>
+                        <button mat-button (click)="resetData3('get')">GET</button>
+                        <button mat-button (click)="resetData3('delete')">DELETE</button>
+                        <button mat-button (click)="resetData3('options')">OPTIONS</button>
+                    </ng-container>
+                    <ng-container *ngIf="selectedRoute === '/dragon'">
+                        <button mat-button (click)="dragon('post')">POST</button>
+                        <button mat-button (click)="dragon('get')">GET</button>
+                        <button mat-button (click)="killDargon('delete')">DELETE</button>
+                        <button mat-button (click)="dragon('options')">OPTIONS</button>
+                    </ng-container>
                 </div>
                 <div *ngIf="showDecryptInput">
                     <mat-form-field appearance="outline">

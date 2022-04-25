@@ -218,6 +218,77 @@ export class HomeComponent implements OnInit {
       }
     });
     this.resetData2('get');
-
   }
+  async vieux(method: HttpMethodType) {
+    firstValueFrom(this.api2.vieux(method)).then((response) => {
+      console.log("🚀 ~ HomeComponent ~ firstValueFrom ~ response", response);
+      this.responseMessage = '<b> Response : <br> ' + response.body?.descripton + '<br> <br>' + response.body?.question + '<br> <br>' + this.getResponseHeader(response.headers);
+    }, (error) => {
+      this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
+    });
+  }
+
+  async note(method: HttpMethodType) {
+    firstValueFrom(this.api2.note(method)).then((response) => {
+      console.log("🚀 ~ HomeComponent ~ firstValueFrom ~ response", response);
+      this.responseMessage = '<b> Response : <br> ' + response.body + '<br> <br>' + this.getResponseHeader(response.headers);
+    }, (error) => {
+      this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
+    });
+  }
+
+  async couloir(method: HttpMethodType) {
+    firstValueFrom(this.api2.couloir(method)).then((response) => {
+      console.log("🚀 ~ HomeComponent ~ firstValueFrom ~ response", response);
+      this.responseMessage = '<b> Response : <br> ' + response.body + '<br> <br>' + this.getResponseHeader(response.headers);
+    }, (error) => {
+      this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
+    });
+    this.routesResponse.push('/1');
+  }
+
+  async couloir1(method: HttpMethodType) {
+    firstValueFrom(this.api2.couloir1(method)).then((response) => {
+      console.log("🚀 ~ HomeComponent ~ firstValueFrom ~ response", response);
+      this.responseMessage = '<b> Response : <br> ' + response.body + '<br> <br>' + this.getResponseHeader(response.headers);
+    }, (error) => {
+      this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
+    });
+    this.resetData2('get');
+  }
+
+  // floor 3 
+
+  async register3() {
+    localStorage.clear();
+    let tokenValue: string;
+    await firstValueFrom(this.api3.inscription(this.loginModel.username, this.loginModel.password)).then((response) => {
+      tokenValue = response.headers.get('x-subject-token');
+      localStorage.setItem('token', tokenValue!);
+    });
+    this.resetData3('get');
+  }
+
+  async resetData3(method: HttpMethodType) {
+    firstValueFrom(this.api3.reset(method)).then((response) => this.status = response, (error) => this.status.name = error.error);
+  }
+
+  async dragon(method: HttpMethodType) {
+    firstValueFrom(this.api3.dragon(method)).then((response) => {
+      console.log("🚀 ~ HomeComponent ~ firstValueFrom ~ response", response);
+      this.responseMessage = '<b> Response : <br> ' + response.body + '<br> <br>' + this.getResponseHeader(response.headers);
+    }, (error) => {
+      this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
+    });
+  }
+
+  async killDargon(method: HttpMethodType) {
+    firstValueFrom(this.api3.killDragon(method)).then((response) => {
+      console.log("🚀 ~ HomeComponent ~ firstValueFrom ~ response", response);
+      this.responseMessage = '<b> Response : <br> ' + response.body + '<br> <br>' + this.getResponseHeader(response.headers);
+    }, (error) => {
+      this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
+    });
+  }
+
 }

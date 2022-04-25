@@ -28,7 +28,7 @@ export class Api2Service {
   }
 
   escalier(method: HttpMethodType): Observable<HttpResponse<string>> {
-    return this.http.request<string>(method, this.baseUrl + '/esccalier', { observe: 'response', });
+    return this.http.request<string>(method, this.baseUrl + '/escalier', { observe: 'response', });
   }
 
   reset(method: HttpMethodType): Observable<StatusResponse> {
@@ -36,7 +36,7 @@ export class Api2Service {
   }
 
   vieux(method: HttpMethodType): Observable<HttpResponse<VieuxResponse>> {
-    return this.http.request<VieuxResponse>(method, this.baseUrl + 'vieux', { observe: 'response', });
+    return this.http.request<VieuxResponse>(method, this.baseUrl + '/vieux', { observe: 'response', });
   }
 
   note(method: HttpMethodType): Observable<HttpResponse<string>> {
@@ -53,6 +53,6 @@ export class Api2Service {
 }
 
 interface VieuxResponse {
-  description: string;
+  descripton: string;
   question: string;
 }

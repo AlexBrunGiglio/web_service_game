@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpMethodType } from './types';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +26,16 @@ export class Api3Service {
     return req;
   }
 
-  dragon(): Observable<string> {
-    return this.http.get<string>(this.baseUrl + '/dragon');
+  dragon(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/dragon', { observe: 'response', });
   }
 
-  killDragon(): Observable<string> {
-    return this.http.delete<string>(this.baseUrl + '/dragon');
+  killDragon(method: HttpMethodType): Observable<HttpResponse<string>> {
+    return this.http.request<string>(method, this.baseUrl + '/dragon', { observe: 'response', });
   }
 
-  reset(): Observable<StatusResponse> {
-    return this.http.get<StatusResponse>(this.baseUrl + '/reset');
+  reset(method: HttpMethodType): Observable<StatusResponse> {
+    return this.http.request<StatusResponse>(method, this.baseUrl + '/reset');
   }
 }
 
