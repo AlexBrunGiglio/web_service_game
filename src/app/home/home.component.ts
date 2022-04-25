@@ -289,6 +289,7 @@ export class HomeComponent implements OnInit {
     }, (error) => {
       this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
     });
+    this.resetData3('get');
   }
 
 }

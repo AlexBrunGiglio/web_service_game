@@ -34,7 +34,7 @@
                 <button mat-button (click)="register()"
                     *ngIf="etageSelected !== 'Etage 2' && etageSelected !== 'Etage 3'">Inscription</button>
                 <button mat-button (click)="register2()" *ngIf="etageSelected === 'Etage 2'">Connexion</button>
-                <button mat-button (click)="register2()" *ngIf="etageSelected === 'Etage 3'">Connexion</button>
+                <button mat-button (click)="register3()" *ngIf="etageSelected === 'Etage 3'">Connexion</button>
             </ng-container>
 
             <ng-container *ngIf="getTokenFromStorage()">
@@ -148,7 +148,7 @@
                         <button mat-button (click)="couloir1('options')">OPTIONS</button>
                     </ng-container>
                 </div>
-                <div class="btn-row" *ngIf="etageSelected==='Etage 2'">
+                <div class="btn-row" *ngIf="etageSelected==='Etage 3'">
                     <ng-container *ngIf="selectedRoute === '/reset'">
                         <button mat-button (click)="resetData3('post')">POST</button>
                         <button mat-button (click)="resetData3('get')">GET</button>
