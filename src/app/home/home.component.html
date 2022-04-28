@@ -69,6 +69,14 @@
                                 type="text" placeholder="Ex. login">
                         </mat-form-field>
                     </div>
+                    <div *ngIf="etageSelected === 'Etage 2' && selectedRoute === '/vieux'">
+                        <h3 style="margin-bottom: 0;">Texte libre</h3>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Champs de texte libre</mat-label>
+                            <input matInput [(ngModel)]="vieuxInput" (ngModelChange)="validateSecretRoute()" type="text"
+                                placeholder="Ex. login">
+                        </mat-form-field>
+                    </div>
                 </div>
 
                 <div class="btn-row" *ngIf="etageSelected==='Etage 1'">
@@ -141,7 +149,7 @@
                         <button mat-button (click)="couloir('delete')">DELETE</button>
                         <button mat-button (click)="couloir('options')">OPTIONS</button>
                     </ng-container>
-                    <ng-container *ngIf="selectedRoute === '/1'">
+                    <ng-container *ngIf="selectedRoute === '/couloir/1'">
                         <button mat-button (click)="couloir1('post')">POST</button>
                         <button mat-button (click)="couloir1('get')">GET</button>
                         <button mat-button (click)="couloir1('delete')">DELETE</button>
@@ -176,6 +184,20 @@
             </ng-container>
         </div>
         <div class="main-content border">
+            <p>
+                <ng-container *ngIf="etageSelected === 'Etage 1' && selectedRoute=== '/coffre'">Il est important de lire
+                    les headers pour plus d'informations et d'aide.</ng-container>
+                <ng-container *ngIf="etageSelected === 'Etage 1' && selectedRoute=== '/tresor'">Cette route n'est pas
+                    précisée et elle devrait l'être pour être plus facilement accessible. Il est donc important de
+                    documenter les routes disponnibles (Swagger Open Api).</ng-container>
+                <ng-container *ngIf="etageSelected === 'Etage 2' && selectedRoute=== '/vieux'">Il existe deux trésors
+                    sur cette route grâce au terme xxxxxx : la méthode PUT écrase alors que la méthode POST ajoute.
+                </ng-container>
+                <ng-container *ngIf="etageSelected === 'Etage 3' && selectedRoute=== '/dragon'">La méthode XXXXX
+                    correspond à la xxxxx de ressources, donc celà correspond bien à la mort du dragon. Nous pouvons
+                    utiliser la méthode XXXXX afin de connaître l'ensemble des options possibles sur une route donnée.
+                </ng-container>
+            </p>
             <h3>Résultat de vos requêtes</h3>
             <p [innerHtml]="responseMessage"></p>
             <div *ngIf="show8000btn && selectedRoute === '/escalier'">

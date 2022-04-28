@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
   etagesList = ['Etage 1'];
   etageSelected!: string;
   secretRoute!: string;
+  vieuxInput!: string;
   constructor(
     private api: ApiService,
     private api2: Api2Service,
@@ -220,12 +221,13 @@ export class HomeComponent implements OnInit {
     this.resetData2('get');
   }
   async vieux(method: HttpMethodType) {
-    firstValueFrom(this.api2.vieux(method)).then((response) => {
+    firstValueFrom(this.api2.vieux(method, this.vieuxInput)).then((response) => {
       console.log("🚀 ~ HomeComponent ~ firstValueFrom ~ response", response);
       this.responseMessage = '<b> Response : <br> ' + response.body?.descripton + '<br> <br>' + response.body?.question + '<br> <br>' + this.getResponseHeader(response.headers);
     }, (error) => {
       this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
     });
+    this.resetData2('get');
   }
 
   async note(method: HttpMethodType) {
@@ -244,7 +246,8 @@ export class HomeComponent implements OnInit {
     }, (error) => {
       this.responseMessage = error.error.text + '<br> <br>' + this.getResponseHeader(error.headers);
     });
-    this.routesResponse.push('/1');
+    if (this.routesResponse.length === 6)
+      this.routesResponse.push('/couloir/1');
   }
 
   async couloir1(method: HttpMethodType) {

@@ -35,8 +35,11 @@ export class Api2Service {
     return this.http.request<StatusResponse>(method, this.baseUrl + '/reset');
   }
 
-  vieux(method: HttpMethodType): Observable<HttpResponse<VieuxResponse>> {
-    return this.http.request<VieuxResponse>(method, this.baseUrl + '/vieux', { observe: 'response', });
+  vieux(method: HttpMethodType, input: string): Observable<HttpResponse<VieuxResponse>> {
+    if (method === "post") {
+      return this.http.post<VieuxResponse>(this.baseUrl + '/vieux', input, { observe: 'response', headers: new HttpHeaders({ 'Application': 'text/plain' }) });
+    } else
+      return this.http.request<VieuxResponse>(method, this.baseUrl + '/vieux', { observe: 'response' });
   }
 
   note(method: HttpMethodType): Observable<HttpResponse<string>> {
